@@ -286,10 +286,10 @@ export default function CoursesPage() {
                     </div>
 
                     {/* CTA Buttons */}
-                    <div className="flex gap-3 mt-auto">
+                    <div className="flex gap-3 mt-auto relative z-10">
                       <button
                         onClick={() => handleEnquireClick(course.name)}
-                        className="w-full px-4 py-2 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+                        className="w-full px-4 py-2 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors cursor-pointer"
                       >
                         Enquire Now
                       </button>

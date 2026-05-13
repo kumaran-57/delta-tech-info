@@ -34,14 +34,13 @@ export function EnquiryModal({ isOpen, onClose, courseName }: EnquiryModalProps)
     e.preventDefault()
     setIsLoading(true)
 
-    // Accessing the URL from environment variables
     const SCRIPT_URL = process.env.NEXT_PUBLIC_GOOGLE_SCRIPT_URL;
 
     try {
       if (SCRIPT_URL && SCRIPT_URL !== 'YOUR_GOOGLE_SCRIPT_URL_HERE') {
         await fetch(SCRIPT_URL, {
           method: 'POST',
-          mode: 'no-cors', // Use no-cors for simple Google Script triggers if needed, though JSON might need more
+          mode: 'no-cors',
           headers: {
             'Content-Type': 'text/plain',
           },
@@ -50,16 +49,15 @@ export function EnquiryModal({ isOpen, onClose, courseName }: EnquiryModalProps)
             course: courseName
           }),
         })
+        setSubmitted(true)
       } else {
-        // Simulation if URL is not set
         await new Promise(resolve => setTimeout(resolve, 1500))
         console.log('Submission simulated:', { ...formData, course: courseName })
+        setSubmitted(true)
       }
-      
-      setSubmitted(true)
     } catch (error) {
       console.error('Submission failed:', error)
-      alert('Something went wrong. Please try again.')
+      alert('Network error. Please check your internet or script URL.')
     } finally {
       setIsLoading(false)
     }

@@ -33,11 +33,11 @@ export default function ContactPage() {
     e.preventDefault()
     setIsLoading(true)
 
-    // Accessing the URL from environment variables
     const SCRIPT_URL = process.env.NEXT_PUBLIC_GOOGLE_SCRIPT_URL;
 
     try {
       if (SCRIPT_URL && SCRIPT_URL !== 'YOUR_GOOGLE_SCRIPT_URL_HERE') {
+        // We use mode: 'no-cors' to avoid preflight issues with Google Scripts
         await fetch(SCRIPT_URL, {
           method: 'POST',
           mode: 'no-cors',
@@ -46,18 +46,17 @@ export default function ContactPage() {
           },
           body: JSON.stringify(formData),
         })
+        
+        // With no-cors, we can't check response.ok, but if it doesn't throw, it's sent
+        setSubmitted(true)
       } else {
-        // Simulation if URL is not set
         await new Promise(resolve => setTimeout(resolve, 1500))
         console.log('Form submitted (simulated):', formData)
+        setSubmitted(true)
       }
-
-      setSubmitted(true)
-      
-      // Removed auto-reset of submitted state to allow user to click "Okay"
     } catch (error) {
       console.error('Submission failed:', error)
-      alert('Something went wrong. Please try again.')
+      alert('Network error. Please check your internet or script URL.')
     } finally {
       setIsLoading(false)
     }
