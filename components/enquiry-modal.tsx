@@ -43,7 +43,7 @@ export function EnquiryModal({ isOpen, onClose, courseName }: EnquiryModalProps)
           method: 'POST',
           mode: 'no-cors', // Use no-cors for simple Google Script triggers if needed, though JSON might need more
           headers: {
-            'Content-Type': 'application/json',
+            'Content-Type': 'text/plain',
           },
           body: JSON.stringify({
             ...formData,
